@@ -1,0 +1,50 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade for PR2</title>
+
+    <style>
+    .card-container {
+  width: 12in;
+  height: 8in;
+  position: relative;
+  background: white;
+  transform-origin: top left;
+  border: 1px solid #000;
+  margin: auto;
+  box-sizing: border-box;
+}
+
+    @media (max-width: 768px) {
+  .card-wrapper {
+    overflow: auto;
+    width: 100%;
+  }
+
+  .card-container {
+    transform: scale(0.5); /* Adjust based on screen width */
+  }
+}
+
+
+
+    .grade {
+        position: absolute;
+        font-size: 14pt;
+        font-weight: bold;
+    }
+
+    
+    </style>
+</head>
+<body>
+    <div class="card-wrapper">
+  <div class="card-container">
+    <div class="grade" style="top: 2in; left: 3in;">91</div>
+    <!-- More positioned grades here -->
+  </div>
+</div>
+
+</body>
+</html>

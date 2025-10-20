@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>List of Officers</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <div data-include="Assets/Logo.html"></div>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+    body {
+      overflow-x: hidden;
+      background: #f1f3f4;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .navbar {
+      z-index: 1060 !important;
+      font-family: Oswald, sans-serif;
+    }
+
+    .sidebar {
+      height: 100vh;
+      width: 250px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background: #fff;
+      padding-top: 60px;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+      transition: left 0.3s;
+      z-index: 1050;
+    }
+
+    .sidebar.closed {
+      left: -250px;
+    }
+
+    .sidebar .nav-link {
+      border-radius: 5px;
+      transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    }
+
+    .sidebar .nav-link:hover {
+      background-color: #0d6efd;
+      color: white;
+      transform: translateX(5px);
+    }
+
+    .sidebar .nav-link.active {
+      background-color: #0d6efd;
+      color: white;
+      font-weight: bold;
+      transform: translateX(5px);
+      pointer-events: none;
+    }
+
+    @media (min-width: 992px) {
+      .sidebar {
+        left: 0 !important;
+      }
+
+      #toggleBtn {
+        display: none;
+      }
+
+      .main {
+        margin-left: 250px;
+        padding-right: 2rem;
+      }
+    }
+
+    .main {
+      transition: margin-left 0.3s;
+      padding-top: 80px;
+    }
+
+    /* Page background watermark */
+    .page-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 9999;
+      background-image: url('low quality.png');
+      background-repeat: no-repeat;
+      background-position: center center;
+      opacity: 0.08;
+      pointer-events: none;
+      background-size: 40% auto;
+    }
+
+    @media (max-width: 576px) {
+      .page-background {
+        background-size: 100%;
+      }
+    }
+
+    /* Card design */
+    :root {
+      --vdarkblue: #0066bd;
+      --darkblue: #1484CD;
+      --lightblue: #82CAFF;
+      --gray: #e6e6e6;
+      --card-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      --transition: 0.6s ease;
+    }
+
+    body {
+      background: var(--gray);
+      color: #212529;
+      overflow-x: hidden;
+      padding: 20px 0;
+    }
+
+    .introduction {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .introduction h1 {
+      font-size: 48px;
+      margin-bottom: 10px;
+      color: var(--vdarkblue);
+      font-family: Oswald, sans-serif;
+    }
+
+    .introduction p {
+      margin: 0 50px;
+      font-size: 18px;
+      text-align: justify;
+    }
+
+    .panels {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 0;
+    }
+
+    .panels li {
+      width: 22%;
+      min-width: 200px;
+      position: relative;
+    }
+
+    .f-b {
+      perspective: 1000px;
+      aspect-ratio: 1/1;
+      width: 100%;
+    }
+
+    .front, .back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 10px;
+      overflow: hidden;
+      transition: transform var(--transition);
+      box-shadow: var(--card-shadow);
+    }
+
+    .front { transform: rotateY(0deg); }
+    .back { transform: rotateY(180deg); }
+    .f-b:hover .front { transform: rotateY(-180deg); }
+    .f-b:hover .back { transform: rotateY(0deg); }
+
+    .f-b img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: filter 0.3s;
+    }
+
+    .f-b:hover img { filter: none; }
+
+    @media (max-width: 768px) { .panels li { width: 45%; } }
+    @media (max-width: 576px) { .panels li { width: 100%; max-width: 300px; } }
+
+    /* Officer details text */
+    .officer-info {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .officer-info h5 {
+      color: #0d6efd;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .officer-info p {
+      margin: 0;
+      color: #333;
+      font-size: 0.9rem;
+      opacity: 0.85;
+    }
+
+    #toggleBtn {
+      color: white;
+      border-color: white;
+    }
+
+    #toggleBtn:hover {
+      background-color: white !important;
+      color: #0d6efd !important;
+      border-color: white !important;
+    }
+
+    ::placeholder {
+      color: #000 !important;
+      opacity: 1;
+    }
+
+    @media (max-width: 991.98px) {
+      #sidebar {
+        position: absolute;
+        z-index: 1050;
+        height: 100vh;
+        transition: transform 0.3s ease;
+      }
+
+      #sidebar.collapsed {
+        transform: translateX(-100%);
+      }
+
+      #sidebar:not(.collapsed) {
+        transform: translateX(0);
+      }
+    }
+
+    .page-background {
+  position: fixed;
+  top: 0; /* better to make it cover exactly */
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999; /* very high so it's above everything */
+  background-image: url('low quality.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  opacity: 0.08;
+  pointer-events: none; /* still allows clicks through */
+  background-size: 60% auto;
+}
+
+@media (max-width: 576px) {
+  .page-background {
+    background-size: 200%;
+  }
+}
+
+    * {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="page-background">
+    <img src="low" alt="">
+  </div>
+
+  <!-- Header/Navbar -->
+  <nav class="navbar navbar-light bg-primary shadow-sm fixed-top" data-bs-theme="dark">
+    <div class="container-fluid">
+      <div class="d-flex flex-column flex-lg-row w-100 align-items-start align-items-lg-center justify-content-lg-between">
+        <div class="d-flex align-items-center w-100 w-lg-auto justify-content-start mb-2 mb-lg-0">
+          <button class="btn btn-outline-secondary me-2" id="toggleBtn">☰</button>
+          <img src="Assets/low quality.png" alt="Logo" width="40" style="margin-right: 0.2rem;">
+          <span class="navbar-brand mb-0 h1 d-none d-lg-inline">School Emergency Response Team A.Y. 2025-2026</span>
+          <span class="navbar-brand mb-0 h1 d-inline d-lg-none">SERT A.Y. '25-'26</span>
+        </div>
+
+        <!-- Search Bar -->
+        <form id="searchForm" class="d-flex w-100 w-lg-auto justify-content-center justify-content-lg-end" role="search">
+          <input
+            id="searchInput"
+            class="form-control me-2 bg-white text-dark w-75 w-lg-auto"
+            type="search"
+            placeholder="Search Name / Section / Club / Event"
+            aria-label="Search"
+          />
+        </form>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sidebar -->
+  <div class="sidebar bg-light collapsed" id="sidebar">
+    <ul class="nav flex-column px-3">
+      <li class="nav-item">
+        <a class="nav-link none" href="">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active fw-bold" href="">Officers</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="Certificates.html">Certificates</a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Main content -->
+  <div class="main container" id="mainContent">
+    <div class="row" id="noteContainer">
+
+      <div class="introduction">
+        <h1>List of Officers</h1>
+        <p>Hover to flip and view the name and position of each officer. All data below are auto-generated from a single array in JavaScript.</p>
+      </div>
+
+      <div class="wrapper">
+        <ul class="panels" id="officerList"></ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- JS -->
+  <script>
+
+    // Officers array (name + rank)
+    const officers = [
+      { frontImg: "Images/Front/1.png", backImg: "Images/Back/1.png", name: "Clarence Jefferson T. Bulatao", rank: "SHS Coordinator" },
+      { frontImg: "Images/Front/2.png", backImg: "Images/Back/2.png", name: "Gabriel F. Pascual", rank: "SHS Co-Coordinator" },
+      { frontImg: "Images/Front/3.png", backImg: "Images/Back/3.png", name: "Rhayvenn L. Valdecantos", rank: "JHS Coordinator" },
+      { frontImg: "Images/Front/4.png", backImg: "Images/Back/4.png", name: "Gabriel Ian S. Rapsing", rank: "JHS Co-Coordinator" },
+      { frontImg: "Images/Front/5.png", backImg: "Images/Back/5.png", name: "Leehyan Heny R. Eugenio", rank: "Adolescent and Reproductive Health Chairwoman" },
+      { frontImg: "Images/Front/6.png", backImg: "Images/Back/6.png", name: "Jenny L. Nollas", rank: "Adolescent and Reproductive Health Vice Chairwoman" },
+      { frontImg: "Images/Front/7.png", backImg: "Images/Back/7.png", name: "Paulyn DL. Espiritu", rank: "Communication Chairwoman" },
+      { frontImg: "Images/Front/8.png", backImg: "Images/Back/8.png", name: "Tsivaz Yhael C. Neri", rank: "Communication Vice Chairman" },
+      { frontImg: "Images/Front/9.png", backImg: "Images/Back/9.png", name: "Jericho Santillan", rank: "Disability Support and Guidance Chairman" },
+      { frontImg: "Images/Front/10.png", backImg: "Images/Back/10.png", name: "Mara Ianah M. Romero", rank: "Disability Support and Guidance Vice Chairwoman" },
+      { frontImg: "Images/Front/11.png", backImg: "Images/Back/11.png", name: "TJ Miel N. Bernabe", rank: "DRRM In Education Chairman" },
+      { frontImg: "Images/Front/12.png", backImg: "Images/Back/12.png", name: "Ily Eryn V. Coronel", rank: "DRRM In Education Vice Chairwoman" },
+      { frontImg: "Images/Front/13.png", backImg: "Images/Back/13.png", name: "Ruel John DC. Dela Cruz", rank: "Evacuation Chairman" },
+      { frontImg: "Images/Front/14.png", backImg: "Images/Back/14.png", name: "Feliz C. Hernando", rank: "Evacuation Vice Chairwoman" },
+      { frontImg: "Images/Front/15.png", backImg: "Images/Back/15.png", name: "Whency T. Dela Rosa", rank: "Fire Safety and Warning Chairman" },
+      { frontImg: "Images/Front/16.png", backImg: "Images/Back/16.png", name: "Lance Henrick R. Eugenio", rank: "Fire Safety and Warning Vice" },
+      { frontImg: "Images/Front/17.png", backImg: "Images/Back/17.png", name: "Angel Khate G. Borcelo", rank: "First Aid Search & Rescue Chairwoman" },
+      { frontImg: "Images/Front/18.png", backImg: "Images/Back/18.png", name: "Althea Mariz P. Clemente", rank: "First Aid Search & Rescue Vice Chairwoman" },
+      { frontImg: "Images/Front/19.png", backImg: "Images/Back/19.png", name: "Justine Ariz F. Santos", rank: "Logistics/Supply & Relief Chairman" },
+      { frontImg: "Images/Front/20.png", backImg: "Images/Back/20.png", name: "Joana Therese E. Reyes", rank: "Logistics/Supply & Relief Vice Chairwoman" },
+      { frontImg: "Images/Front/21.png", backImg: "Images/Back/21.png", name: "Arvince D. Dela Cruz", rank: "Material Management Guidance Chairman" },
+      { frontImg: "Images/Front/22.png", backImg: "Images/Back/22.png", name: "Jeremiah L. Bolinas", rank: "Material Management Guidance Vice Chairman" },
+      { frontImg: "Images/Front/23.png", backImg: "Images/Back/23.png", name: "Angel Erica Mitz R. Carmona", rank: "Psychosocial Support Chairwoman" },
+      { frontImg: "Images/Front/24.png", backImg: "Images/Back/24.png", name: "Charise L. Gatus", rank: "Psychosocial Support Vice Chairwoman" },
+      { frontImg: "Images/Front/25.png", backImg: "Images/Back/25.png", name: "Maria Shekainah Grace M. Cruz", rank: "School Safety & Sanitation Habit Chairwoman" },
+      { frontImg: "Images/Front/26.png", backImg: "Images/Back/26.png", name: "Patricia Ysabel I. Santiago", rank: "School Safety & Sanitation Habit Vice Chairwoman" },
+      { frontImg: "Images/Front/27.png", backImg: "Images/Back/27.png", name: "Maria Leoniza B. Arreglo", rank: "Grade 7 Representative | School Safety & Sanitation Habit" },
+      { frontImg: "Images/Front/28.png", backImg: "Images/Back/28.png", name: "Rizchel Charice B. Faustino", rank: "Grade 7 Representative | School Safety & Sanitation Habit" },
+      { frontImg: "Images/Front/29.png", backImg: "Images/Back/29.png", name: "Jhuztin Jane O. Domanais", rank: "Grade 8 Representative | School Safety & Sanitation Habit" },
+      { frontImg: "Images/Front/30.png", backImg: "Images/Back/30.png", name: "Solenn Jade T. Castillo", rank: "Grade 8 Representative | School Safety & Sanitation Habit" },
+      { frontImg: "Images/Front/31.png", backImg: "Images/Back/31.png", name: "Eumie Arielle V. Cruz", rank: "Grade 9 Representative | School Safety & Sanitation Habit" },
+      { frontImg: "Images/Front/32.png", backImg: "Images/Back/32.png", name: "Jared S. Leonardo", rank: "Grade 9 Representative | School Safety & Sanitation Habit" },
+      { frontImg: "Images/Front/33.png", backImg: "Images/Back/33.png", name: "James Renz DC. Payumo", rank: "Grade 10 Representative | School Safety & Sanitation Habit" },
+      { frontImg: "Images/Front/34.png", backImg: "Images/Back/34.png", name: "Ayesha Jane V. Victoria", rank: "Grade 10 Representative | School Safety & Sanitation Habit" },
+      { frontImg: "Images/Front/35.png", backImg: "Images/Back/35.png", name: "Precious Marghel S. Valimento", rank: "Grade 11 Representative | School Safety & Sanitation Habit" },
+      { frontImg: "Images/Front/36.png", backImg: "Images/Back/36.png", name: "Joey Jr. B. Magbanua", rank: "Grade 11 Representative | School Safety & Sanitation Habit" },
+      { frontImg: "Images/Front/37.png", backImg: "Images/Back/37.png", name: "Cassandra Danielle J. Geronimo", rank: "Grade 11 Representative | School Safety & Sanitation Habit" },
+      { frontImg: "Images/Front/38.png", backImg: "Images/Back/38.png", name: "Rocky N. Dela Rosa", rank: "Grade 12 Representative | School Safety & Sanitation Habit" },
+      { frontImg: "Images/Front/39.png", backImg: "Images/Back/39.png", name: "Vanne Ariz F. Santos", rank: "Grade 12 Representative | School Safety & Sanitation Habit" },
+      { frontImg: "Images/Front/40.png", backImg: "Images/Back/40.png", name: "Giane Migzie Torres", rank: "Grade 12 Representative | School Safety & Sanitation Habit" },
+      { frontImg: "Images/Front/41.png", backImg: "Images/Back/41.png", name: "Jon Jacob D. Valderama", rank: "Site Security Chairman" },
+      { frontImg: "Images/Front/42.png", backImg: "Images/Back/42.png", name: "Prince Ryu Cortez Alvarez", rank: "Site Security Vice Chairman" },
+      { frontImg: "Images/Front/43.png", backImg: "Images/Back/43.png", name: "Uan Carl V. Vardeleon", rank: "Solid Waste Management Chairman" },
+      { frontImg: "Images/Front/44.png", backImg: "Images/Back/44.png", name: "Rhiana Mae DC. Tagaza", rank: "Solid Waste Management Vice Chairwoman" },
+      { frontImg: "Images/Front/45.png", backImg: "Images/Back/45.png", name: "JB Adam U. Bassig", rank: "Student Family Reunification Chairman" },
+      { frontImg: "Images/Front/46.png", backImg: "Images/Back/46.png", name: "Keiko Hatsumi F. Soquerata", rank: "Student Family Reunification Vice Chairwoman" },
+      { frontImg: "Images/Front/47.png", backImg: "Images/Back/47.png", name: "Jonash Mark T. Ibaya", rank: "Transportation Chairman" },
+      { frontImg: "Images/Front/48.png", backImg: "Images/Back/48.png", name: "Harry David D. Bermudez", rank: "Transportation Vice Chairman" }
+    ];
+
+    const list = document.getElementById("officerList");
+
+    officers.forEach(officer => {
+      list.innerHTML += `
+        <li>
+          <div class="f-b">
+            <div class="front"><img src="${officer.frontImg}" alt="${officer.name} Front"></div>
+            <div class="back"><img src="${officer.backImg}" alt="${officer.name} Back"></div>
+          </div>
+          <div class="officer-info text-center mt-2">
+            <h5>${officer.name}</h5>
+            <p>${officer.rank}</p>
+          </div>
+        </li>
+      `;
+    });
+  </script>
+
+  <script>
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.getElementById('toggleBtn');
+    const searchForm = document.getElementById("searchForm");
+    const searchInput = document.getElementById("searchInput");
+
+    toggleBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('collapsed');
+      if (window.innerWidth < 992) {
+        closeExpanded();
+      }
+    });
+
+    function handleResize() {
+      if (window.innerWidth < 992) {
+        sidebar.classList.add('collapsed');
+      } else {
+        sidebar.classList.remove('collapsed');
+      }
+    }
+
+    window.addEventListener('resize', handleResize);
+    window.addEventListener('DOMContentLoaded', handleResize);
+
+    document.addEventListener('click', function (e) {
+      const isSmallScreen = window.innerWidth <= 991.98;
+      if (
+        isSmallScreen &&
+        !sidebar.contains(e.target) &&
+        !toggleBtn.contains(e.target)
+      ) {
+        sidebar.classList.add('collapsed');
+      }
+    });
+
+    searchInput.addEventListener("focus", function () {
+      closeExpanded();
+    });
+
+    searchInput.addEventListener("input", function () {
+      const query = searchInput.value.toLowerCase();
+      const notes = document.querySelectorAll("#noteContainer .card");
+
+      notes.forEach(note => {
+        const text = note.textContent.toLowerCase();
+        note.parentElement.style.display = text.includes(query) ? "" : "none";
+      });
+    });
+
+    searchInput.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        // Close the mobile keyboard
+        searchInput.blur();
+
+        showToast("This is an automatic search—you don't have to click Enter.");
+      }
+    });
+
+    function adjustSidebarPadding() {
+      const navbar = document.querySelector('.navbar');
+      const sidebar = document.getElementById('sidebar');
+
+      if (window.innerWidth < 992 && navbar && sidebar) {
+        sidebar.style.paddingTop = navbar.offsetHeight + 'px';
+      } else if (sidebar) {
+        sidebar.style.paddingTop = '';
+      }
+    }
+
+    window.addEventListener('resize', adjustSidebarPadding);
+    window.addEventListener('DOMContentLoaded', adjustSidebarPadding);
+
+    const navLinks = document.querySelectorAll('.none');
+    navLinks.forEach(link => {
+      link.addEventListener('click', function (e) {
+        e.preventDefault();
+        showToast("This page is currently unavailable. Thank you!");
+        
+        sidebar.classList.add('collapsed');
+      });
+    });
+  </script>
+
+  <script src="Assets/include.js"></script>
+
+</body>
+</html>

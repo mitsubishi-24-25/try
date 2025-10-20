@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>List of Officers</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="Assets/Design.css"><!-- 
+  <link rel="icon" href="Assets/Logo Making.png" sizes="48x48" type="image/png"> -->
+  <link rel="stylesheet" href="Assets/Toast.css">
+  <link rel="stylesheet" href="Assets/Sidebar.css">
+
+  <style>
+
+    .card {
+      cursor: pointer;
+      transition: 0.3s;
+      position: relative;
+      background-color: var(--primary-color) !important;
+      overflow-x: hidden !important;
+    }
+
+    [data-disabled] {
+      background-color: var(--none) !important;
+    }
+
+    .card-title {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
+      max-width: 100%;
+      text-align: center;
+      font-family: Fjalla One;
+    }
+
+    .card-preview {
+      max-height: 5.5em;
+      overflow: hidden;
+      position: relative;
+      margin-bottom: 0.75rem;
+    }
+
+    .card-preview::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 2em;
+      width: 100%;
+      background: linear-gradient(to bottom, transparent, var(--primary-color));
+    }
+
+    .note-expanded .btn-close,
+    .note-expanded .btn-danger {
+      z-index: 20;
+      border: none;
+      box-shadow: none;
+    }
+
+    .card h6.card-title {
+      font-size: 0.9rem;
+      font-weight: 400;
+      opacity: 0.9;
+      margin: 0;
+      padding: 0.25rem;
+      text-align: center;
+      font-family: poppins;
+    }
+
+    .note-expanded {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #ffffff;
+      color: #212529;
+      padding: 2rem 1.5rem;
+      width: 90%;
+      max-width: 28rem;
+      max-height: 90vh;
+      overflow-y: auto;
+      overflow-x: hidden;
+      border-radius: 1rem;
+      box-shadow: 0 0.75rem 1.875rem rgba(0, 0, 0, 0.3);
+      z-index: 1080;
+      animation: fadeInScale 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+      font-family: Lexend;
+      font-weight: 300;
+    }
+
+    .note-expanded h5.card-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--primary-color);
+      border-bottom: 1px solid #dee2e6;
+      position: sticky;
+    }
+
+    .note-expanded h5.card-title,
+    .note-expanded h6.card-subtitle {
+      top: 0;
+      background: white;
+      z-index: 1;
+      padding: 0.5rem;
+      text-align: center;
+    }
+
+    .note-expanded h6.card-subtitle {
+      color: red !important;
+    }
+
+    .note-expanded p.card-text {
+      font-size: 1rem;
+      margin-bottom: 0.75rem;
+      line-height: 1.5;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeInScale {
+      from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.9);
+      }
+
+      to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+
+    .backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1030;
+    }
+
+    #toggleBtn {
+      color: white;
+      border-color: white;
+    }
+
+    #toggleBtn:hover {
+      background-color: white !important;
+      color: var(--primary-color) !important;
+      border-color: white !important;
+    }
+
+    .card:hover {
+      box-shadow: 0.40rem 0.40rem 0.2rem rgba(0, 0, 0, 0.25);
+      transition: 0.2s ease;
+      transform: scale(1.01);
+    }
+
+    .card.expanded:hover {
+      box-shadow: none;
+      transform: none;
+    }
+
+    .card-preview .row {
+      border-bottom: 1px solid #dee2e6;
+    }
+
+    .card-preview .col-4 {
+      border-left: 1px solid #dee2e6;
+      text-align: right;
+    }
+
+    .card-preview .col-12{
+      text-align: center;
+    }
+
+    @media (max-width: 576px) {
+      .note-expanded {
+        top: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        max-height: 60vh !important;
+        height: auto !important;
+      }
+
+      .note-expanded .row {
+        flex-wrap: wrap;
+        align-items: flex-start;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+      }
+    }
+
+    @media (min-width: 577px) {
+      .note-expanded {
+        max-height: 80vh;
+        overflow-y: auto;
+      }
+    }
+
+    .two-columns {
+      column-count: 2;
+      column-gap: 1rem;
+    }
+
+    .note-expanded .card-preview::after {
+      display: none !important;
+    }
+
+    .note-expanded .card-preview {
+      position: static !important;
+      overflow: visible !important;
+      overflow-x: hidden;
+    }
+
+    .note-expanded .card-preview .row {
+      margin-bottom: 0.5rem;
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+      width: 100% !important;
+      box-sizing: border-box;
+    }
+
+    .note-expanded .col-6 {
+      padding: 0.5rem 0.5rem;
+    }
+
+    .card-footer {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+      background: transparent;
+    }
+
+    .expanded-title {
+      white-space: normal;
+      overflow: visible;
+      text-align: center;
+      text-overflow: unset;
+      font-family: Fjalla One;
+    }
+
+    .note-expanded-inner {
+      margin: 0 auto;
+      max-width: 90%;
+      max-height: none;
+      height: auto;
+      overflow-y: auto;
+    }
+
+    .note-expanded .row,
+    .note-expanded .col-6,
+    .note-expanded .card-preview {
+      overflow: visible !important;
+      max-height: none !important;
+    }
+
+  </style>
+
+  <style>
+    /* Base state: cards are hidden and shifted */
+    .card {
+  opacity: 0;
+  transition: transform 1s ease, opacity 0.5s ease;
+  pointer-events: none;
+  transform: none; /* reset default */
+}
+
+/* When hidden (before .show is added) */
+.card:not(.show)[data-slide="right"] {
+  transform: translateX(50px);
+}
+
+.card:not(.show)[data-slide="left"] {
+  transform: translateX(-50px);
+}
+
+/* When visible */
+.card.show {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+
+
+  </style>
+</head>
+
+<body>
+
+  <div class="page-background">
+    <img src="low" alt="">
+  </div>
+
+  <nav class="navbar navbar-light bg-primary shadow-sm fixed-top" data-bs-theme="dark">
+    <div class="container-fluid">
+      <div class="d-flex flex-column flex-lg-row w-100 align-items-start align-items-lg-center justify-content-lg-between">
+        <div class="d-flex align-items-center w-100 w-lg-auto justify-content-start mb-2 mb-lg-0">
+          <button class="btn btn-outline-secondary me-2" id="toggleBtn">☰</button>
+          <img src="Assets/low quality.png" alt="Logo" width="40" style="margin-right: 0.2rem;">
+          <span class="navbar-brand mb-0 h1 d-none d-lg-inline">School Emergency Response Team A.Y. 2025-2026</span>
+          <span class="navbar-brand mb-0 h1 d-inline d-lg-none">SERT A.Y. '25-'26</span>
+        </div>
+
+        <form id="searchForm" class="d-flex w-100 w-lg-auto justify-content-center justify-content-lg-end" role="search">
+          <input
+            id="searchInput"
+            class="form-control me-2 bg-white text-dark w-75 w-lg-auto"
+            type="search"
+            placeholder="Search Name / Section / Club / Event"
+            aria-label="Search"
+          />
+        </form>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sidebar -->
+  <div class="sidebar bg-light collapsed" id="sidebar">
+    <ul class="nav flex-column px-3">
+      <li class="nav-item">
+        <a class="nav-link none" href="">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="Officers.html">Officers</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active fw-bold grain" href="">Certificates</a>
+      </li>
+    </ul>
+  </div>
+
+  <br>
+
+  <!-- Main content -->
+  <div class="main container" id="mainContent">
+    <div class="row animation-wrapper" id="noteContainer">
+
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 " ><!--Division Rescuelympics-->
+        <div class="card text-bg-primary p-3 note grain" data-slide="right" data-note data-disabled>
+          <h5 class="card-title">Division Rescuelympics</h5>
+
+          <!-- Preview -->
+          <!--
+          <div class="card-preview">
+            <div class="row">
+              <div class="col-6">Name</div>
+              <div class="col-6">Position</div>
+            </div>
+          </div>
+          -->
+
+          <div class="card-footer text-white-100 small pt-2">
+            <h6 class="card-title mb-0">October 10, 2025</h6>
+          </div>
+
+          <!-- Expanded View -->
+          <div class="note-expanded d-none">
+            <div class="note-expanded-inner">
+              <button class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2 btn-close-note">&times;</button>
+              <h5 class="card-title expanded-title">Division Level Rescue Olympics 2025</h5>
+
+              <!-- <div class="class-preview">
+                <div class="row">
+                  <div style="text-align: center; margin-bottom: 2rem;" class="Yes">SERT Officers A.Y. 2025-2026</div>
+                </div>
+              </div>
+
+              <div class="card-preview" id="SERT-3nsed"></div>
+
+              <div class="class-preview">
+                <div class="row">
+                  <div style="text-align: center; margin-bottom: 2rem;" class="Yes">SERT Members of SSS Committee</div>
+                </div>
+              </div>
+
+
+              <div class="card-preview" id="SERT-Member-3nsed"></div> -->
+
+              <div class="card-footer text-white-100 small pt-2">
+                <h6 class="card-title mb-0">Division Rescuelympics</h6>
+              </div>
+            </div>
+          </div>
+
+          <!-- Add more here -->
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 "><!-- September Monthly Clean-Up Drive-->
+        <div class="card text-bg-primary p-3 note grain" data-slide="left" data-note>
+          <h5 class="card-title">September Monthly Clean-Up Drive</h5>
+
+          <!-- Preview -->
+          <!--
+          <div class="card-preview">
+            <div class="row">
+              <div class="col-6">Name</div>
+              <div class="col-6">Position</div>
+            </div>
+          </div>
+          -->
+
+          <div class="card-footer text-white-100 small pt-2">
+            <h6 class="card-title mb-0">September 30, 2025</h6>
+          </div>
+
+          <!-- Expanded View -->
+          <div class="note-expanded d-none">
+            <div class="note-expanded-inner">
+              <button class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2 btn-close-note">&times;</button>
+              <h5 class="card-title expanded-title">September Monthly Clean-Up Drive</h5>
+
+              <div class="class-preview">
+                <div class="row">
+                  <div style="text-align: center; margin-bottom: 2rem;" class="Yes">SERT Officers A.Y. 2025-2026</div>
+                </div>
+              </div>
+
+              <div class="card-preview" id="SERT-3nsed"></div>
+
+              <div class="class-preview">
+                <div class="row">
+                  <div style="text-align: center; margin-bottom: 2rem;" class="Yes">SERT Members of SSS Committee</div>
+                </div>
+              </div>
+
+
+              <div class="card-preview" id="SERT-Member-3nsed"></div>
+
+              <div class="card-footer text-white-100 small pt-2">
+                <h6 class="card-title mb-0">September Monthly Clean-Up Drive</h6>
+              </div>
+            </div>
+          </div>
+
+          <!-- Add more here -->
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 "><!-- EDDIS III Rescuelympics-->
+        <div class="card text-bg-primary p-3 note grain" data-slide="right" data-note data-disabled>
+          <h5 class="card-title">EDDIS III Rescuelympics</h5>
+
+          <!-- Preview -->
+          <!--
+          <div class="card-preview">
+            <div class="row">
+              <div class="col-6">Name</div>
+              <div class="col-6">Position</div>
+            </div>
+          </div>
+          -->
+
+          <div class="card-footer text-white-100 small pt-2">
+            <h6 class="card-title mb-0">September 19, 2025</h6>
+          </div>
+
+          <!-- Expanded View -->
+          <div class="note-expanded d-none">
+            <div class="note-expanded-inner">
+              <button class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2 btn-close-note">&times;</button>
+              <h5 class="card-title expanded-title">Educational District (EDDIS) III Rescue Olympics 2025 with the SERT Fire Safety & Warning and DRRM In Education Committee Members</h5>
+
+              <!-- <div class="class-preview">
+                <div class="row">
+                  <div style="text-align: center; margin-bottom: 2rem;" class="Yes">SERT Officers A.Y. 2025-2026</div>
+                </div>
+              </div>
+
+              <div class="card-preview" id="SERT-3nsed"></div>
+
+              <div class="class-preview">
+                <div class="row">
+                  <div style="text-align: center; margin-bottom: 2rem;" class="Yes">SERT Members of SSS Committee</div>
+                </div>
+              </div>
+
+
+              <div class="card-preview" id="SERT-Member-3nsed"></div> -->
+
+              <div class="card-footer text-white-100 small pt-2">
+                <h6 class="card-title mb-0">EDDIS III Rescuelympics</h6>
+              </div>
+            </div>
+          </div>
+
+          <!-- Add more here -->
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 "><!-- Third Quarter NSED-->
+        <div class="card text-bg-primary p-3 note grain" data-slide="left" data-note data-disabled>
+          <h5 class="card-title">Third Quarter NSED</h5>
+
+          <!-- Preview -->
+          <!--
+          <div class="card-preview">
+            <div class="row">
+              <div class="col-6">Name</div>
+              <div class="col-6">Position</div>
+            </div>
+          </div>
+          -->
+
+          <div class="card-footer text-white-100 small pt-2">
+            <h6 class="card-title mb-0">September 15, 2025</h6>
+          </div>
+
+          <!-- Expanded View -->
+          <div class="note-expanded d-none">
+            <div class="note-expanded-inner">
+              <button class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2 btn-close-note">&times;</button>
+              <h5 class="card-title expanded-title">Third Quarter Nationwide Simultaneous Earthquake Drill (NSED)</h5>
+
+              <!-- <div class="class-preview">
+                <div class="row">
+                  <div style="text-align: center; margin-bottom: 2rem;" class="Yes">SERT Officers A.Y. 2025-2026</div>
+                </div>
+              </div>
+
+              <div class="card-preview" id="SERT-3nsed"></div>
+
+              <div class="class-preview">
+                <div class="row">
+                  <div style="text-align: center; margin-bottom: 2rem;" class="Yes">SERT Members of SSS Committee</div>
+                </div>
+              </div>
+
+
+              <div class="card-preview" id="SERT-Member-3nsed"></div> -->
+
+              <div class="card-footer text-white-100 small pt-2">
+                <h6 class="card-title mb-0">Third Quarter NSED</h6>
+              </div>
+            </div>
+          </div>
+
+          <!-- Add more here -->
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 "><!-- PTA Meeting-->
+        <div class="card text-bg-primary p-3 note grain" data-slide="right" data-note data-disabled>
+          <h5 class="card-title">Parent-Teacher Conference</h5>
+
+          <!-- Preview -->
+          <!--
+          <div class="card-preview">
+            <div class="row">
+              <div class="col-6">Name</div>
+              <div class="col-6">Position</div>
+            </div>
+          </div>
+          -->
+
+          <div class="card-footer text-white-100 small pt-2">
+            <h6 class="card-title mb-0">September 12, 2025</h6>
+          </div>
+
+          <!-- Expanded View -->
+          <div class="note-expanded d-none">
+            <div class="note-expanded-inner">
+              <button class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2 btn-close-note">&times;</button>
+              <h5 class="card-title expanded-title">Parent-Teacher Conference and Distribution of Report Cards for the First Quarter S.Y 2025-2026</h5>
+<!-- 
+              <div class="card-preview" id="SERT-pta"></div> -->
+
+              <div class="card-footer text-white-100 small pt-2">
+                <h6 class="card-title mb-0">Parent-Teacher Conference</h6>
+              </div>
+            </div>
+          </div>
+
+          <!-- Add more here -->
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 "><!-- WASH in School-->
+        <div class="card text-bg-primary p-3 note grain" data-slide="left" data-note>
+          <h5 class="card-title">2025 WASH in Schools</h5>
+
+          <!-- Preview -->
+          <!--
+          <div class="card-preview">
+            <div class="row">
+              <div class="col-6">Name</div>
+              <div class="col-6">Position</div>
+            </div>
+          </div>
+          -->
+
+          <div class="card-footer text-white-100 small pt-2">
+            <h6 class="card-title mb-0">September 02, 2025</h6>
+          </div>
+
+          <!-- Expanded View -->
+          <div class="note-expanded d-none">
+            <div class="note-expanded-inner">
+              <button class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2 btn-close-note">&times;</button>
+              <h5 class="card-title expanded-title">2025 Municipal WASH (WAter, Sanitation & Hygiene) in Schools Monitoring, Validation, and Provision of Technical Assistance</h5>
+
+              <div class="class-preview">
+                <div class="row">
+                  <div style="text-align: center; margin-bottom: 2rem;" class="Yes">Clubs and Organizations S.Y. 2025-2026</div>
+                </div>
+              </div>
+
+              <div class="card-preview" id="Clubs-wins"></div>
+
+              <div class="class-preview">
+                <div class="row">
+                  <div style="text-align: center; margin-bottom: 2rem;" class="Yes">SERT Officers A.Y. 2025-2026</div>
+                </div>
+              </div>
+
+              <div class="card-preview" id="SERT-wins"></div>
+
+              <div class="class-preview">
+                <div class="row">
+                  <div style="text-align: center; margin-bottom: 2rem;" class="Yes">SERT Members of SSS Committee</div>
+                </div>
+              </div>
+
+
+              <div class="card-preview" id="SERT-Member-wins"></div>
+
+              <div class="class-preview">
+                <div class="row">
+                  <div style="text-align: center; margin-bottom: 2rem;" class="Yes">Supreme Secondary Learner Government (SSLG)</div>
+                </div>
+              </div>
+
+
+              <div class="card-preview" id="SSLG-wins"></div>
+
+              <div class="class-preview">
+                <div class="row">
+                  <div style="text-align: center; margin-bottom: 2rem;" class="Yes">Boy Scouts of the Philippines</div>
+                </div>
+              </div>
+
+
+              <div class="card-preview" id="Scouts-wins"></div>
+
+              <div class="card-footer text-white-100 small pt-2">
+                <h6 class="card-title mb-0">WASH in Schools</h6>
+              </div>
+            </div>
+          </div>
+
+          <!-- Add more here -->
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 "><!-- SSS (Aug) -->
+        <div class="card text-bg-primary p-3 note grain" data-slide="right" data-note>
+          <h5 class="card-title">SSS (August)</h5>
+
+          <!-- Preview -->
+          <!--
+          <div class="card-preview">
+            <div class="row">
+              <div class="col-6">Name</div>
+              <div class="col-6">Position</div>
+            </div>
+          </div>
+          -->
+
+          <div class="card-footer text-white-100 small pt-2">
+            <h6 class="card-title mb-0">August 29, 2025</h6>
+          </div>
+
+          <!-- Expanded View -->
+          <div class="note-expanded d-none">
+            <div class="note-expanded-inner">
+              <button class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2 btn-close-note">&times;</button>
+              <h5 class="card-title expanded-title">School Safety and Sanitation Habit for the month of August</h5>
+
+              <!--
+              <div class="class-preview">
+                <div class="row">
+                  <div style="text-align: center;">hotdog</div>
+                </div>
+              </div>
+              -->
+
+              <div class="card-preview" id="SSS-Aug"></div>
+
+              <div class="card-footer text-white-100 small pt-2">
+                <h6 class="card-title mb-0">SSS (August)</h6>
+              </div>
+            </div>
+          </div>
+
+          <!-- Add more here -->
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 "><!--Foundation Day-->
+        <div class="card text-bg-primary p-3 note grain" data-slide="left" data-note data-disabled>
+          <h5 class="card-title">57th Foundation Day</h5>
+
+          <!-- Preview -->
+          <!--
+          <div class="card-preview">
+            <div class="row">
+              <div class="col-6">Name</div>
+              <div class="col-6">Position</div>
+            </div>
+          </div>
+          -->
+
+          <div class="card-footer text-white-100 small pt-2">
+            <h6 class="card-title mb-0">August 29, 2025</h6>
+          </div>
+
+          <!-- Expanded View -->
+          <div class="note-expanded d-none">
+            <div class="note-expanded-inner">
+              <button class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2 btn-close-note">&times;</button>
+              <!-- <h5 class="card-title expanded-title">2025 Municipal WASH (WAter, Sanitation & Hygiene) in Schools Monitoring, Validation, and Provision of Technical Assistance</h5>
+
+              <div class="class-preview">
+                <div class="row">
+                  <div style="text-align: center; margin-bottom: 2rem;" class="Yes">SERT Officers A.Y. 2025-2026</div>
+                </div>
+              </div>
+
+              <div class="card-preview" id="SERT"></div>
+
+              <div class="card-footer text-white-100 small pt-2">
+                <h6 class="card-title mb-0">WASH in Schools</h6>
+              </div> -->
+            </div>
+          </div>
+
+          <!-- Add more here -->
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 "><!-- August Monthly Clean-Up Drive-->
+        <div class="card text-bg-primary p-3 note grain" data-slide="right" data-note>
+          <h5 class="card-title">August Monthly Clean-Up Drive w/ LGU</h5>
+
+          <!-- Preview -->
+          <!--
+          <div class="card-preview">
+            <div class="row">
+              <div class="col-6">Name</div>
+              <div class="col-6">Position</div>
+            </div>
+          </div>
+          -->
+
+          <div class="card-footer text-white-100 small pt-2">
+            <h6 class="card-title mb-0">August 23, 2025</h6>
+          </div>
+
+          <!-- Expanded View -->
+          <div class="note-expanded d-none">
+            <div class="note-expanded-inner">
+              <button class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2 btn-close-note">&times;</button>
+              <h5 class="card-title expanded-title">August Monthly Clean-Up Drive with Maguinao LGU</h5>
+
+              <div class="class-preview">
+                <div class="row">
+                  <div style="text-align: center; margin-bottom: 2rem;" class="Yes">SERT Officers A.Y. 2025-2026</div>
+                </div>
+              </div>
+
+              <div class="card-preview" id="Officer"></div>
+
+              <div class="class-preview">
+                <div class="row">
+                  <div style="text-align: center; margin-bottom: 2rem;" class="Yes">SERT Member</div>
+                </div>
+              </div>
+
+
+              <div class="card-preview" id="Member"></div>
+
+              <div class="card-footer text-white-100 small pt-2">
+                <h6 class="card-title mb-0">August Monthly Clean-Up Drive with Maguinao LGU</h6>
+              </div>
+            </div>
+          </div>
+
+          <!-- Add more here -->
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 "><!-- Project CFGHS Vision 360 -->
+        <div class="card text-bg-primary p-3 note grain" data-slide="left" data-note data-disabled>
+          <h5 class="card-title">Project CFGHS Vision 360</h5>
+
+          <!-- Preview -->
+          <!--
+          <div class="card-preview">
+            <div class="row">
+              <div class="col-6">Name</div>
+              <div class="col-6">Position</div>
+            </div>
+          </div>
+          -->
+
+          <div class="card-footer text-white-100 small pt-2">
+            <h6 class="card-title mb-0">August 20, 2025</h6>
+          </div>
+
+          <!-- Expanded View -->
+          <div class="note-expanded d-none">
+            <div class="note-expanded-inner">
+              <button class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2 btn-close-note">&times;</button>
+              <h5 class="card-title expanded-title">Project CFGHS Vision 360</h5>
+
+              <div class="class-preview">
+                <div class="row">
+                  <div style="text-align: center; margin-bottom: 2rem;" class="Yes">SERT Officers A.Y. 2025-2026</div>
+                </div>
+              </div>
+
+              <!-- <div class="card-preview" id="Symposium_AP"></div> -->
+
+              <div class="class-preview">
+                <div class="row">
+                  <div style="text-align: center; margin-bottom: 2rem;" class="Yes">SERT Members</div>
+                </div>
+              </div>
+
+
+              <!-- <div class="card-preview" id="Member1"></div> -->
+
+              <div class="card-footer text-white-100 small pt-2">
+                <h6 class="card-title mb-0">Symposium on Emergency</h6>
+              </div>
+            </div>
+          </div>
+
+          <!-- Add more here -->
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 "><!-- SSS (July) -->
+        <div class="card text-bg-primary p-3 note grain" data-slide="right" data-note>
+          <h5 class="card-title">SSS (July)</h5>
+
+          <!-- Preview -->
+          <!--
+          <div class="card-preview">
+            <div class="row">
+              <div class="col-6">Name</div>
+              <div class="col-6">Position</div>
+            </div>
+          </div>
+          -->
+
+          <div class="card-footer text-white-100 small pt-2">
+            <h6 class="card-title mb-0">July 31, 2025</h6>
+          </div>
+
+          <!-- Expanded View -->
+          <div class="note-expanded d-none">
+            <div class="note-expanded-inner">
+              <button class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2 btn-close-note">&times;</button>
+              <h5 class="card-title expanded-title">School Safety and Sanitation Habit for the month of July</h5>
+
+              <!--
+              <div class="class-preview">
+                <div class="row">
+                  <div style="text-align: center;">hotdog</div>
+                </div>
+              </div>
+              -->
+
+              <div class="card-preview" id="SSS-July"></div>
+
+              <div class="card-footer text-white-100 small pt-2">
+                <h6 class="card-title mb-0">SSS (July)</h6>
+              </div>
+            </div>
+          </div>
+
+          <!-- Add more here -->
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 "><!-- Ap Symposium -->
+        <div class="card text-bg-primary p-3 note grain" data-slide="left" data-note data-disabled>
+          <h5 class="card-title">Symposium on Emergency</h5>
+
+          <!-- Preview -->
+          <!--
+          <div class="card-preview">
+            <div class="row">
+              <div class="col-6">Name</div>
+              <div class="col-6">Position</div>
+            </div>
+          </div>
+          -->
+
+          <div class="card-footer text-white-100 small pt-2">
+            <h6 class="card-title mb-0">July 30, 2025</h6>
+          </div>
+
+          <!-- Expanded View -->
+          <div class="note-expanded d-none">
+            <div class="note-expanded-inner">
+              <button class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2 btn-close-note">&times;</button>
+              <h5 class="card-title expanded-title">Symposium on Emergency Preparedness and Response for Grade 10 Students</h5>
+
+              <div class="class-preview">
+                <div class="row">
+                  <div style="text-align: center; margin-bottom: 2rem;" class="Yes">SERT Officers A.Y. 2025-2026</div>
+                </div>
+              </div>
+
+              <!-- <div class="card-preview" id="Symposium_AP"></div> -->
+
+              <div class="class-preview">
+                <div class="row">
+                  <div style="text-align: center; margin-bottom: 2rem;" class="Yes">SERT Members of First Aid Search & Rescue Team</div>
+                </div>
+              </div>
+
+
+              <!-- <div class="card-preview" id="Member1"></div> -->
+
+              <div class="class-preview">
+                <div class="row">
+                  <div style="text-align: center; margin-bottom: 2rem;" class="Yes">SERT Members of Transportation Team</div>
+                </div>
+              </div>
+
+              <!-- <div class="card-preview" id="Member2"></div> -->
+
+              <div class="card-footer text-white-100 small pt-2">
+                <h6 class="card-title mb-0">Symposium on Emergency</h6>
+              </div>
+            </div>
+          </div>
+
+          <!-- Add more here -->
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 "><!-- Project ALAGA -->
+        <div class="card text-bg-primary p-3 note grain" data-slide="right" data-note>
+          <h5 class="card-title">Project ALAGA</h5>
+
+          <!-- Preview -->
+          <!--
+          <div class="card-preview">
+            <div class="row">
+              <div class="col-6">Name</div>
+              <div class="col-6">Position</div>
+            </div>
+          </div>
+          -->
+
+          <div class="card-footer text-white-100 small pt-2">
+            <h6 class="card-title mb-0">July 29, 2025</h6>
+          </div>
+
+          <!-- Expanded View -->
+          <div class="note-expanded d-none">
+            <div class="note-expanded-inner">
+              <button class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2 btn-close-note">&times;</button>
+              <h5 class="card-title expanded-title">SDO Bulacan's Divisions Project ALAGA (Assesment for Learners Access to Good Amenities) Facilitiy Monitoring</h5>
+
+              <!--
+              <div class="class-preview">
+                <div class="row">
+                  <div style="text-align: center;">hotdog</div>
+                </div>
+              </div>
+              -->
+
+              <div class="card-preview" id="Project_ALAGA"></div>
+
+              <div class="card-footer text-white-100 small pt-2">
+                <h6 class="card-title mb-0">Project ALAGA</h6>
+              </div>
+            </div>
+          </div>
+
+          <!-- Add more here -->
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 "><!-- July Monthly Clean-Up Drive -->
+        <div class="card text-bg-primary p-3 note grain" data-slide="left" data-note>
+          <h5 class="card-title">July Monthly Clean-Up Drive w/ LGU</h5>
+
+          <!-- Preview -->
+          <!--
+          <div class="card-preview">
+            <div class="row">
+              <div class="col-6">Name</div>
+              <div class="col-6">Position</div>
+            </div>
+          </div>
+          -->
+
+          <div class="card-footer text-white-100 small pt-2">
+            <h6 class="card-title mb-0">July 26, 2025</h6>
+          </div>
+
+          <!-- Expanded View -->
+          <div class="note-expanded d-none">
+            <div class="note-expanded-inner">
+              <button class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2 btn-close-note">&times;</button>
+              <h5 class="card-title expanded-title">July Monthly Clean-Up Drive with Maguinao LGU</h5>
+
+              <!--
+              <div class="class-preview">
+                <div class="row">
+                  <div style="text-align: center;">hotdog</div>
+                </div>
+              </div>
+              -->
+
+              <div class="card-preview" id="July_Clean-Up"></div>
+
+              <div class="card-footer text-white-100 small pt-2">
+                <h6 class="card-title mb-0">July Monthly Clean-Up Drive with Maguinao LGU</h6>
+              </div>
+            </div>
+          </div>
+
+          <!-- Add more here -->
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 "> <!-- Gawad KALASAG -->
+        <div class="card text-bg-primary p-3 note grain" data-slide="right" data-note>
+          <h5 class="card-title">Gawad KALASAG 2025</h5>
+
+          <!-- Preview -->
+          <!--
+          <div class="card-preview">
+            <div class="row">
+              <div class="col-6">Name</div>
+              <div class="col-6">Position</div>
+            </div>
+          </div>
+          -->
+
+          <div class="card-footer text-white-100 small pt-2">
+            <h6 class="card-title mb-0">June 25, 2025</h6>
+          </div>
+
+          <!-- Expanded View -->
+          <div class="note-expanded d-none">
+            <div class="note-expanded-inner">
+              <button class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2 btn-close-note">&times;</button>
+              <h5 class="card-title expanded-title">Regional Search for GAWAD KALASAG (Kalamidad at Sakuna ay Labanan, Sariling Galing ang Kaligtasan) 2025</h5>
+
+              <div class="class-preview">
+                <div class="row">
+                  <div style="text-align: center; margin-bottom: 2rem;" class="Yes">Clubs and Organizations S.Y. 2025-2026</div>
+                </div>
+              </div>
+
+              <div class="card-preview" id="Clubs"></div>
+
+              <div class="class-preview">
+                <div class="row">
+                  <div style="text-align: center; margin-bottom: 2rem;" class="Yes">SERT Officers A.Y. 2025-2026</div>
+                </div>
+              </div>
+
+              <div class="card-preview" id="SERT"></div>
+
+              <div class="class-preview">
+                <div class="row">
+                  <div style="text-align: center; margin-bottom: 2rem;" class="Yes">SERT Members</div>
+                </div>
+              </div>
+
+
+              <div class="card-preview" id="SERT-Member"></div>
+
+              <div class="class-preview">
+                <div class="row">
+                  <div style="text-align: center; margin-bottom: 2rem;" class="Yes">Supreme Secondary Learner Government (SSLG)</div>
+                </div>
+              </div>
+
+              <div class="card-preview" id="SSLG"></div>
+
+              <div class="class-preview">
+                <div class="row">
+                  <div style="text-align: center; margin-bottom: 2rem;" class="Yes">Boy Scouts of the Philippines</div>
+                </div>
+              </div>
+
+              <div class="card-preview" id="BoyScout"></div>
+
+              <div class="card-footer text-white-100 small pt-2">
+                <h6 class="card-title mb-0">Gawad KALASAG 2025</h6>
+              </div>
+            </div>
+          </div>
+
+          <!-- Add more here -->
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 "><!-- TWG Back-To-School Orientation -->
+        <div class="card text-bg-primary p-3 note grain" data-slide="left" data-note>
+          <h5 class="card-title">TWG | Back-To-School Orientation</h5>
+
+          <!-- Preview -->
+          <!--
+          <div class="card-preview">
+            <div class="row">
+              <div class="col-6">Name</div>
+              <div class="col-6">Position</div>
+            </div>
+          </div>
+          -->
+
+          <div class="card-footer text-white-100 small pt-2">
+            <h6 class="card-title mb-0">June 18, 2025</h6>
+          </div>
+
+          <!-- Expanded View -->
+          <div class="note-expanded d-none">
+            <div class="note-expanded-inner">
+              <button class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2 btn-close-note">&times;</button>
+              <h5 class="card-title expanded-title">TWG | Back-To-School Orientation for the S.Y. 2025-2026</h5>
+
+              <div class="card-preview" id="Back-To-School"></div>
+
+              <!-- <div class="class-preview">
+                <div class="row">
+                  <div style="text-align: center;">hotdog</div>
+                </div>
+              </div>
+
+
+              <div class="card-preview">
+                <div class="row gx-2">
+                  <div class="col-8">Member</div>
+                  <div class="col-4">Section</div>
+                </div>
+              </div> -->
+
+              <div class="card-footer text-white-100 small pt-2">
+                <h6 class="card-title mb-0">TWG | Back-To-School Orientation for the S.Y. 2025-2026</h6>
+              </div>
+            </div>
+          </div>
+
+          <!-- Add more here -->
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const cards = document.querySelectorAll('.card');
+  const baseDelay = 500; // delay before first card
+  const stagger = 500;   // time between each card
+
+  // Force browser to render the initial (hidden) state first
+  setTimeout(() => {
+    cards.forEach((card, index) => {
+      setTimeout(() => {
+        card.classList.add('show');
+      }, baseDelay + index * stagger);
+    });
+  }, 100); // small wait before starting animation
+});
+
+
+
+
+</script>
+
+
+  <script src="Assets/Sidebar+ToggleBtn+SearchForm+SearchInput.js"></script>
+  <script src="Assets/Toast.js"></script><!-- 
+  <script src="Assets/Actions Disabled.js"></script> -->
+  <script src="Assets/Load names.js"></script>
+  <script src="Assets/include.js"></script>
+</body>
+</html>
+
+
+
+
