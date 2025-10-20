@@ -267,31 +267,28 @@
   </style>
 
   <style>
-    /* Base state: cards are hidden and shifted */
-    .card {
+    
+    /* Smooth slide animation for cards on scroll or reveal */
+.card[data-slide] {
   opacity: 0;
   transition: transform 1s ease, opacity 0.5s ease;
   pointer-events: none;
-  transform: none; /* reset default */
 }
 
 /* When hidden (before .show is added) */
-.card:not(.show)[data-slide="right"] {
+.card[data-slide="right"]:not(.show) {
   transform: translateX(50px);
 }
 
-.card:not(.show)[data-slide="left"] {
+.card[data-slide="left"]:not(.show) {
   transform: translateX(-50px);
 }
 
 /* When visible */
 .card.show {
   opacity: 1;
-  transform: translateX(0);
   pointer-events: auto;
 }
-
-
 
   </style>
 </head>
